@@ -1,5 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="custom.css">
+  <title>Data Visualization</title>
+  <script src="https://d3js.org/d3.v5.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <style>
+    circle {fill: lightblue; stroke: black;}
+    .tooltip {position: absolute; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;}
+  </style>
 </head>
+<body>
+  <svg id="chart" width="300" height="300"></svg>
+  <h1 id="heading">Narrative vis, need data</h1>
+  <button id="updateButton">Update Chart</button>
 
-<h1> Narrative vis, need data </h1>
+  <div id="tooltip" class="tooltip" ></div>
+</body>
+</html>
