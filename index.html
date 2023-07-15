@@ -7,13 +7,24 @@
   <style>
     circle {fill: lightblue; stroke: black;}
     .tooltip {position: absolute; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;}
+    a {cursor: pointer;}
   </style>
 </head>
 <body>
-  <svg id="chart" width="300" height="300"></svg>
+<ul>
+    <li id="OverviewMenu" >
+        <a onclick="clearChart();injuryYearsChart();return false;">Overview</a>
+    </li>
+    <li id="YearMenu">
+        <a onclick="if(isYear) {clearChart();selectedYearChart(currentYear);} else {return false;}">Year</a>
+    </li>
+    <li id="TeamMenu">
+        <a>Team</a>
+    </li>
+</ul>
   <h1 id="heading">Narrative vis, need data</h1>
+  <svg id="chart" width="1000" height="500"></svg>
   <button id="updateButton">Update Chart</button>
 
-  <div id="tooltip" class="tooltip" ></div>
 </body>
 </html>
