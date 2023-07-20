@@ -1,4 +1,3 @@
-var headingCount = 1;
 var currentYear = "";
 
 var isOverview = true;
@@ -16,9 +15,15 @@ var svg;
 var tooltip;
 
 function clearChart() {
-    svg.selectAll("*").remove();
+    d3.select("#chart").select("svg").remove();
     tooltip.style("visibility", "hidden").text("");
     d3.select("body").style('cursor', 'default');
+    svg = d3.select("#chart")
+    .append("svg") // Change the "svg" element to properly set the width and height
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 }
 
   svg = d3.select("#chart")
@@ -42,6 +47,13 @@ function clearChart() {
         d3.select("#OverviewMenu").attr("class", "active");
         d3.select("#YearMenu").attr("class", "");
         d3.select("#TeamMenu").attr("class", "");
+
+        d3.select("#narrative_text").text(`
+        This narrative overviews the number of injuries throughout the history of the National Basketball Association
+        (NBA). This drill-down narrative starts with the below displayed line chart showcasing hte total number of player
+        per year. There appears to be a vast increase in injuries starting in the 1990s, and a closer look at these injuries
+        may provide further details. 
+        `);
 
         var dataByYear = d3.nest()
             .key(function (d) {
@@ -151,16 +163,6 @@ function clearChart() {
     tooltip.style("visibility", "hidden");
   }
 
-  document.getElementById("updateButton").addEventListener("click", updateChart);
-
-  function updateChart() {
-    clearChart();
-    drawScatterPlot();
-
-    var heading = document.getElementById("heading");
-    heading.textContent = "Heading " + headingCount;
-    headingCount++;
-  }
 
   //Function that populates a treemap of injuries by team
   function selectedYearChart(Year) {
@@ -170,6 +172,12 @@ function clearChart() {
       d3.select("#OverviewMenu").attr("class", "active");
       d3.select("#YearMenu").attr("class", "active");
       d3.select("#TeamMenu").attr("class", "");
+
+      d3.select("#narrative_text").text(`
+        Drilling down, the selected year displays the share of the total injuries per team in the NBA. 
+        The tree map visually breaks down the injury share to show which teams had the greatest share of injuries
+        in the selected year. Each team has their number of injuries displayed next to their team name in parentheses.
+        `);
 
       data = data.filter(function (el) {
           return (formatYear(parseDate(el.Date)) == Year);
@@ -254,6 +262,11 @@ function clearChart() {
         d3.select("#YearMenu").attr("class", "active");
         d3.select("#TeamMenu").attr("class", "active");
 
+        d3.select("#narrative_text").text(`
+        The types of injuries on the selected team are displayed in the barchart below. You may hover your
+        cursor over each chart to see which players had that specific injury.
+        `);
+
         data = data.filter(function (el) {
             return (formatYear(parseDate(el.Date)) == Year && el.Team == Team);
         });
@@ -275,8 +288,7 @@ function clearChart() {
       var width = 800 - margin.left - margin.right;
       var height = 400 - margin.top - margin.bottom;
 
-      svg = d3.select("#chart")
-        .append("svg")
+      svg
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

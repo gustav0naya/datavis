@@ -3,6 +3,7 @@
 <head>
   <title>Data Visualization</title>
   <script src="https://d3js.org/d3.v5.min.js" defer></script>
+  <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
   <script src="script.js" defer></script>
   <style>
     circle {fill: lightblue; stroke: black;}
@@ -11,6 +12,7 @@
   </style>
 </head>
 <body>
+<div style="text-align: center;">
 <ul>
     <li id="OverviewMenu" >
         <a onclick="clearChart();injuryYearsChart();return false;">Overview</a>
@@ -22,9 +24,13 @@
         <a>Team</a>
     </li>
 </ul>
-  <h1 id="heading">Narrative vis, need data</h1>
+</div>
+<br>
+<p id="narrative_text"></p>
+<div style="text-align: center;">
+<p>
   <svg id="chart" width="1000" height="500"></svg>
-  <button id="updateButton">Update Chart</button>
-
+</p>
+</div>
 </body>
 </html>
