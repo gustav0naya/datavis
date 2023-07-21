@@ -46,7 +46,7 @@ function clearChart() {
         svg = d3.select("#chart")
             .append("svg") // Change the "svg" element to properly set the width and height
             .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("height", height + margin.top + margin.bottom+100)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -213,12 +213,6 @@ function clearChart() {
             .text("NBA Player Injuries from 1951-2023");
 
         // Annotations for legend
-        svg = d3.select("#chart")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom + 100) // Added 100 to make room for the legend
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         const annotationsLegend = [
             { note: { label: "Injuries remain relatively flat until 1990" }, subject: { text: "A" }},
@@ -285,6 +279,7 @@ function clearChart() {
         The tree map visually breaks down the injury share to show which teams had the greatest share of injuries
         in the selected year. Each team has their number of injuries displayed next to their team name in parentheses.
         Please click on a team to see the injury breakdown.
+        To return to the 'Overview,' please select 'Overview' at the top of the page.
         `);
 
       data = data.filter(function (el) {
@@ -386,6 +381,7 @@ function clearChart() {
         d3.select("#narrative_text").text(`
         The types of injuries on the selected team are displayed in the barchart below. You may hover your
         cursor over each chart to see which players had that specific injury.
+        To return to the teams in the selected year, please select 'Year' at the top of the page.
         `);
 
         data = data.filter(function (el) {
