@@ -48,7 +48,6 @@ function clearChart() {
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .style("cursor", "pointer")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var dataByYear = d3.nest()
@@ -73,6 +72,69 @@ function clearChart() {
 
         var xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%Y"));
         var yAxis = d3.axisLeft(y).tickFormat(d3.format("~s"));
+
+        //annotations
+
+        var annotations = [
+                //moved recession annotation to front of array so it's behind
+                //the Macbook Air annotation
+                {
+                  note: {
+                    title: "Spike in injuries",
+                    lineType: "none",
+                    align: "middle",
+                    wrap: 150 //custom text wrapping
+                  },
+                  subject: {
+                    height: height,
+                    width: x("2022") - x("1999")
+                  },
+                  type: d3.annotationCalloutRect,
+                  y: 0.1,
+                  disable: ["connector"], // doesn't draw the connector
+                  //can pass "subject" "note" and "connector" as valid options
+                  dx: (x("2021") - x("1999"))/2,
+                  data: { x: "1998"}
+                },
+                {
+                  subject: {
+                    text: "A",
+                      y: "top",
+                    x: "left" //badges have an x of "left" or "right"
+                  },
+                  data: { x: "1990", y: 90}
+                },
+                {
+                  subject: {
+                      text: "B",
+                      y: "bottom"
+                  },
+                  data: { x: "1998", y: 127}
+                },
+                {
+                  subject: {
+                    text: "C",
+                    y: "bottom",
+                    x: "right"
+                  },
+                  data: { x: "2022", y: 1582}
+                }]
+
+        const type = d3.annotationCustomType(
+            d3.annotationBadge,
+            {"subject":{"radius": 12 }}
+          )
+
+        var makeAnnotations = d3.annotation()
+            .type(type)
+            .accessors({
+              x: function(d){ return x(d.x) },
+              y: function(d){ return y(d.y) }
+            })
+            .annotations(annotations)
+
+        svg.append("g")
+            .call(makeAnnotations)
 
         svg.append("g")
             .append("path")
@@ -105,6 +167,7 @@ function clearChart() {
             .on("mouseover", showTooltip)
             .on("mousemove", moveTooltip)
             .on("mouseout", hideTooltip)
+            .style("cursor", "pointer")
             .on("click", function (d) {
                 clearChart();
                 selectedYearChart(d.key);
@@ -147,7 +210,7 @@ function clearChart() {
             .attr("text-anchor", "middle")
             .attr("font-weight", "bold")
             .attr("font-size", 20)
-            .text("NBA Injuries from 1951-2023");
+            .text("NBA Player Injuries from 1951-2023");
 
     })
       .catch(function(error){
@@ -444,64 +507,10 @@ async function init() {
 
 window.addEventListener("DOMContentLoaded", init);
 
-//annotations
 
-// const annotations = [
-//         //moved recession annotation to front of array so it's behind
-//         //the Macbook Air annotation
-//         {
-//           note: {
-//             title: "Spike in injuries",
-//             lineType: "none",
-//             align: "middle",
-//             wrap: 150 //custom text wrapping
-//           },
-//           subject: {
-//             height: height - margin.top - margin.bottom,
-//             width: x(new Date("6/1/2009")) - x(new Date("12/1/2007"))
-//           },
-//           type: d3.annotationCalloutRect,
-//           y: margin.top,
-//           disable: ["connector"], // doesn't draw the connector
-//           //can pass "subject" "note" and "connector" as valid options
-//           dx: (x(new Date("12/1/2021")) - x(new Date("12/1/1999")))/2,
-//           data: { x: "12/1/1999"}
-//         },
-//         {
-//           subject: {
-//             text: "A",
-//             x: "right" //badges have an x of "left" or "right"
-//           },
-//           data: { x: "1/10/1990", y: 80.9}
-//         },
-//         {
-//           subject: { text: "B" },
-//           data: { x: "6/29/1998", y: 122}
-//         },
-//         {
-//           subject: {
-//             text: "C",
-//             y: "bottom",
-//             x: "right"
-//           },
-//           data: { x: "4/3/2021", y: 238}
-//         }]
-//
-// const type = d3.annotationCustomType(
-//     d3.annotationBadge,
-//     {"subject":{"radius": 10 }}
-//   )
-//
-// const makeAnnotations = d3.annotation()
-//     .type(type)
-//     .accessors({
-//       x: function(d){ return x(new Date(d.x))},
-//       y: function(d){ return y(d.y) }
-//     })
-//     .annotations(annotations)
-//
-//
-// //annotations for legend
+
+
+//annotations for legend
 // const annotationsLegend = [{
 //       note: { label: "Injuries remain relatively flat until 1990" },
 //       subject: { text: "A" }
