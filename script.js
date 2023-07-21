@@ -212,6 +212,41 @@ function clearChart() {
             .attr("font-size", 20)
             .text("NBA Player Injuries from 1951-2023");
 
+        // Annotations for legend
+        svg = d3.select("#chart")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom + 100) // Added 100 to make room for the legend
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        const annotationsLegend = [
+            { note: { label: "Injuries remain relatively flat until 1990" }, subject: { text: "A" }},
+            { note: { label: "Injuries start rising" }, subject: { text: "B" }},
+            { note: { label: "Injuries Peak" }, subject: { text: "C" }}
+        ].map(function(d, i) {
+            d.x = 90 + i*280;
+            d.y = height + 80; // Adjusted to be below the chart
+            d.subject.x = "right";
+            return d;
+        });
+
+        const makeLegendAnnotations = d3.annotation()
+            .type(d3.annotationBadge)
+            .annotations(annotationsLegend);
+
+        svg.append("g")
+            .call(makeLegendAnnotations);
+
+        svg.selectAll('text.legend')
+            .data(annotationsLegend)
+            .enter()
+            .append('text')
+            .attr('class', 'legend')
+            .text(function(d) { return d.note.label })
+            .attr('x', function(d, i) { return  5 + i*320 })
+            .attr('y', height + 120); // Adjusted to be below the chart
+
     })
       .catch(function(error){
         console.log("Error detected in Overview code", error);
@@ -507,31 +542,3 @@ async function init() {
 
 window.addEventListener("DOMContentLoaded", init);
 
-
-
-
-//annotations for legend
-// const annotationsLegend = [{
-//       note: { label: "Injuries remain relatively flat until 1990" },
-//       subject: { text: "A" }
-//     },
-//     {
-//       note: { label: "Injuries start rising" },
-//       subject: { text: "B" }
-//     },
-//     {
-//       note: { label: "Injuries Peak" },
-//       subject: { text: "C" }
-//     }
-//     ].map(function(d, i){
-//       d.x = margin.left + i*200
-//       d.y = 415
-//       d.subject.x = "right"
-//       d.subject.y = "bottom"
-//       d.subject.radius = 10
-//       return d
-//     })
-//
-// const makeLegendAnnotations = d3.annotation()
-//     .type(d3.annotationBadge)
-//     .annotations(annotationsLegend)
