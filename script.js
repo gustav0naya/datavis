@@ -43,6 +43,8 @@ function clearChart() {
         may provide further details. Please click on the datapoint on a year to explore further.
         `);
 
+        var width = d3.select('#chart').node().getBoundingClientRect().width - margin.left - margin.right;
+
         svg = d3.select("#chart")
             .append("svg") // Change the "svg" element to properly set the width and height
             .attr("width", width + margin.left + margin.right)
@@ -219,7 +221,7 @@ function clearChart() {
             { note: { label: "Injuries start rising" }, subject: { text: "B" }},
             { note: { label: "Injuries Peak" }, subject: { text: "C" }}
         ].map(function(d, i) {
-            d.x = 90 + i*280;
+            d.x = 180 + i*340;
             d.y = height + 80; // Adjusted to be below the chart
             d.subject.x = "right";
             return d;
@@ -238,7 +240,7 @@ function clearChart() {
             .append('text')
             .attr('class', 'legend')
             .text(function(d) { return d.note.label })
-            .attr('x', function(d, i) { return  5 + i*320 })
+            .attr('x', function(d, i) { return  65 + i*390 })
             .attr('y', height + 120); // Adjusted to be below the chart
 
     })
