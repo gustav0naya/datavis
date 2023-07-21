@@ -1,4 +1,4 @@
-ody {
+body {
   background-color:#DFE9EF;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 15px;
@@ -9,11 +9,11 @@ img {
   margin-bottom: 30px;
 }
 /********************* TEXT *********************/
-h1 {
+li {
   text-transform: uppercase;
   font-size: 25px;
   color: black;
-  text-align: left;
+  text-align: middle;
   margin: 1px;
 }
 
@@ -198,3 +198,82 @@ a:focus {
   background-color: rgb(109, 125, 158);
   color: white
 }
+
+circle {fill: lightblue; stroke: black;}
+.tooltip {position: absolute; padding: 8px; background-color: #f9f9f9; border: 1px solid #ccc;}
+a {cursor: pointer;}
+
+
+ li.active,
+    li.active+li:before {
+        background: lightblue;
+        font-weight: bold;
+    }
+
+
+ul {
+    list-style: none;
+}
+
+  :root {
+    --line-chart-color: #607D8B;
+    --annotation-context-color: #546E7A;
+    --annotation-badge-color:white;
+    --annotation-color: #E8336D;
+  }
+
+.annotation path {
+    stroke: var(--annotation-badge-color);
+  }
+
+  .annotation:not(.above):not(.anomaly) path {
+    stroke-dasharray: 1,3;
+  }
+
+  .annotation text {
+    fill: var(--annotation-badge-color);
+  }
+
+  .annotation-note-bg {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  .annotation-note-title, text.title {
+    font-weight: bold;
+  }
+
+  svg .annotation.rect text {
+    fill: var(--annotation-context-color);
+    font-size: .6em;
+    text-transform: uppercase;
+  }
+
+  svg .annotation.callout.rect path.subject{
+    fill-opacity: .1;
+  }
+
+  svg .annotation.callout.rect path.subject {
+    fill: var(--annotation-context-color);
+    stroke: none;
+    stroke-dasharray: 2, 8;
+  }
+
+  svg .annotation.badge .annotation-subject path{
+      fill: var(--annotation-color);
+      stroke-width: 0px;
+      stroke-dasharray: none;
+  }
+
+  svg .annotation.badge path.subject-pointer {
+      stroke-width: 0px;
+  }
+
+  svg .annotation.badge text {
+    font-size: .7em;
+  }
+
+  svg text.legend{
+    text-anchor: start;
+    fill: var(--annotation-color)
+  }
+
