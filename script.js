@@ -364,6 +364,37 @@ function clearChart() {
         .attr("font-size", 20)
         .text("Injuries by Team in " + Year);
 
+      //annotation for treemap
+      var annotations = [
+            {
+                note: {
+                    label: "No one team appears to have a significantly greater injury share",
+                    align: "middle",
+                    wrap: 100,
+                    padding: 5,
+                    fill: "black"
+                },
+                connector: {
+                    end: "arrow",
+                    type: "line",
+                    color: "black"
+                },
+
+                x: width-10,
+                y: -margin.top / 2 + 60,
+                dx: 60,
+                dy: 25,
+                color: ["red"]
+            }
+        ];
+
+      var makeAnnotations = d3.annotation().annotations(annotations);
+
+      svg
+        .append("g")
+        .call(makeAnnotations);
+      //append annotation
+
 
     })
     .catch(function(error){

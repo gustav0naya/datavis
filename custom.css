@@ -218,7 +218,7 @@ ul {
   :root {
     --line-chart-color: #607D8B;
     --annotation-context-color: #546E7A;
-    --annotation-badge-color:white;
+    --annotation-badge-color:black;
     --annotation-color: #E8336D;
   }
 
