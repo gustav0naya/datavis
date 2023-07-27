@@ -119,7 +119,7 @@ function clearChart() {
                     y: "bottom",
                     x: "right"
                   },
-                  data: { x: "2022", y: 1582}
+                  data: { x: "2021", y: 1562}
                 }]
 
         const type = d3.annotationCustomType(
@@ -298,8 +298,35 @@ function clearChart() {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .style("cursor", "pointer")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+      //annotation for treemap
+      var annotations = [
+            {
+                note: {
+                    label: "No one team appears to have a significantly greater injury share",
+                    align: "middle",
+                    wrap: 100,
+                    padding: 5,
+                    fill: "black"
+                },
+                connector: {
+                    end: "arrow",
+                    type: "line",
+                    color: "black"
+                },
+
+                x: width-10,
+                y: -margin.top / 2 + 60,
+                dx: 60,
+                dy: 25,
+                color: ["red"]
+            }
+        ];
+
+      var makeAnnotations = d3.annotation().annotations(annotations);
+
 
       // Create a nested data structure with the count of each team
       var nestedData = d3.nest()
@@ -319,6 +346,7 @@ function clearChart() {
       // Compute the treemap layout
       treemap(root);
 
+
       // Create the treemap visualization
       svg.selectAll("rect")
         .data(root.leaves())
@@ -329,6 +357,7 @@ function clearChart() {
         .attr("width", function(d) { return Math.max(0, d.x1 - d.x0 - 1); }) // subtract 1 for padding
         .attr("height", function(d) { return Math.max(0, d.y1 - d.y0 - 1); }) // subtract 1 for padding
         .style("fill", "navy")
+        .style("cursor", "pointer")
         .style("stroke", "black")
         .style("stroke-width", 1)
         .on("click", function(d) {
@@ -364,36 +393,9 @@ function clearChart() {
         .attr("font-size", 20)
         .text("Injuries by Team in " + Year);
 
-      //annotation for treemap
-      var annotations = [
-            {
-                note: {
-                    label: "No one team appears to have a significantly greater injury share",
-                    align: "middle",
-                    wrap: 100,
-                    padding: 5,
-                    fill: "black"
-                },
-                connector: {
-                    end: "arrow",
-                    type: "line",
-                    color: "black"
-                },
-
-                x: width-10,
-                y: -margin.top / 2 + 60,
-                dx: 60,
-                dy: 25,
-                color: ["red"]
-            }
-        ];
-
-      var makeAnnotations = d3.annotation().annotations(annotations);
-
       svg
         .append("g")
         .call(makeAnnotations);
-      //append annotation
 
 
     })
