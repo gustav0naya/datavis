@@ -226,6 +226,12 @@ ul {
     stroke: var(--annotation-badge-color);
   }
 
+.foreign-object.legend {
+    text-anchor: start;
+    fill: var(--annotation-color);
+    font: 12px 'Arial';
+  }
+
   .annotation:not(.above):not(.anomaly) path {
     stroke-dasharray: 1,3;
   }

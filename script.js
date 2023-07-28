@@ -14,6 +14,32 @@ var height = 400;
 var svg = d3.select("#chart");
 var tooltip;
 
+// Function to wrap text inside a given width
+function textWrap(text, width) {
+    text.each(function () {
+        var text = d3.select(this),
+            words = text.text().split(/\s+/).reverse(),
+            word,
+            line = [],
+            lineNumber = 0,
+            lineHeight = 1.1, // ems
+            y = text.attr("y"),
+            x = text.attr("x"),
+            dy = parseFloat(text.attr("dy")),
+            tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+
+        while (word = words.pop()) {
+            line.push(word);
+            tspan.text(line.join(" "));
+            if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+            }
+        }
+    });
+}
 function clearChart() {
     d3.select("#chart").select("svg").remove();
     tooltip.style("visibility", "hidden").text("");
@@ -40,7 +66,8 @@ function clearChart() {
         This narrative overviews the number of injuries throughout the history of the National Basketball Association
         (NBA). This drill-down narrative starts with the below displayed line chart showcasing the total number of player
         per year. There appears to be a vast increase in injuries starting in the 1990s, and a closer look at these injuries
-        may provide further details. Please click on the datapoint on a year to explore further.
+        may provide further details. Please hover your cursor over a datapoint to see the year and number of injuries
+        in that year, and click on the datapoint on a year to explore further.
         `);
 
         var width = d3.select('#chart').node().getBoundingClientRect().width - margin.left - margin.right;
@@ -217,12 +244,17 @@ function clearChart() {
         // Annotations for legend
 
         const annotationsLegend = [
-            { note: { label: "Injuries remain relatively flat until 1990" }, subject: { text: "A" }},
-            { note: { label: "Injuries start rising" }, subject: { text: "B" }},
-            { note: { label: "Injuries Peak" }, subject: { text: "C" }}
+            { note: { label: "NBA media coverage expands, load management encourages players to rest more, " +
+                        "and NBA adds new teams" }, subject: { text: "A" }},
+            { note: { label: "NBA starts to have fewer rest days, increased pace, longer season, and improved " +
+                        "diagnostics/reporting" }, subject: { text: "B" }},
+            { note: { label: "'Health and safety protocols' change for COVID. Players get placed on " +
+                        "IL without a specific reason because of privacy, competitive advantage, " +
+                        "uncertainty in diagnosis, changing nature of injuries"
+                }, subject: { text: "C" }}
         ].map(function(d, i) {
-            d.x = 180 + i*340;
-            d.y = height + 80; // Adjusted to be below the chart
+            d.x = 80 + i*340;
+            d.y = height + 65; // Adjusted to be below the chart
             d.subject.x = "right";
             return d;
         });
@@ -234,15 +266,21 @@ function clearChart() {
         svg.append("g")
             .call(makeLegendAnnotations);
 
-        svg.selectAll('text.legend')
-            .data(annotationsLegend)
-            .enter()
-            .append('text')
-            .attr('class', 'legend')
-            .text(function(d) { return d.note.label })
-            .attr('x', function(d, i) { return  65 + i*390 })
-            .attr('y', height + 120); // Adjusted to be below the chart
-
+        var legendGroup = svg
+          .append("g")
+          .attr("class", "legend")
+          .selectAll("foreignObject")
+          .data(annotationsLegend)
+          .enter()
+          .append("foreignObject")
+          .attr("x", function (d) { return d.x; })
+          .attr("y", function (d) { return d.y; })
+          .attr("width", 350) // Adjust the width of the foreignObject to wrap the content
+          .attr("height", 100)
+          .append("xhtml:body") // Use xhtml:body to support HTML content
+          .style("font", "13px 'Arial'")
+          .style("color", "var(--annotation-color)")
+          .html(function (d) { return d.note.label; });
     })
       .catch(function(error){
         console.log("Error detected in Overview code", error);
