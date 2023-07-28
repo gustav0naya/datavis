@@ -309,7 +309,7 @@ function clearChart() {
                     align: "middle",
                     wrap: 100,
                     padding: 5,
-                    fill: "black"
+                    color: ["red"]
                 },
                 connector: {
                     end: "arrow",
@@ -321,7 +321,7 @@ function clearChart() {
                 y: -margin.top / 2 + 60,
                 dx: 60,
                 dy: 25,
-                color: ["red"]
+                color: "var(--annotation-color)"
             }
         ];
 
@@ -393,9 +393,13 @@ function clearChart() {
         .attr("font-size", 20)
         .text("Injuries by Team in " + Year);
 
-      svg
-        .append("g")
+      var annotationGroup = svg.append("g")
+        .attr('class', 'legend')
         .call(makeAnnotations);
+
+    // Set the fill color for the text label inside the annotation
+      annotationGroup.selectAll("text")
+        .attr('class', 'legend');
 
 
     })
