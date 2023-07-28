@@ -72,7 +72,7 @@ function clearChart() {
             }))
             .range([height, 0]);
 
-        var xAxis = d3.axisBottom(x).tickFormat(d3.timeFormat("%Y"));
+        var xAxis = d3.axisBottom(x).tickFormat(d3.format(".4"));
         var yAxis = d3.axisLeft(y).tickFormat(d3.format("~s"));
 
         //annotations
