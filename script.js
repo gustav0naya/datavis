@@ -14,7 +14,7 @@ var height = 400;
 var svg = d3.select("#chart");
 var tooltip;
 
-// Function to wrap text inside a given width
+// Function to wrap text inside a given width. Try
 function textWrap(text, width) {
     text.each(function () {
         var text = d3.select(this),
