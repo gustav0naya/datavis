@@ -489,6 +489,34 @@ function clearChart() {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+      //annotation for barchart
+      var annotations = [
+            {
+                note: {
+                    label: "Observe the type of injuries. Return to the overview and compare injury reports across " +
+                        "decades to see different trends. ",
+                    align: "middle",
+                    wrap: 300,
+                    padding: 5,
+                    color: ["red"]
+                },
+                connector: {
+                    end: "arrow",
+                    type: "line",
+                    color: "black"
+                },
+
+                x: width-50,
+                y: height+5,
+                dx: -20,
+                dy: -5,
+                color: "var(--annotation-color)"
+            }
+        ];
+
+      var makeAnnotations = d3.annotation().annotations(annotations);
+
       // Set up the scales for the x-axis and y-axis
       var x = d3.scaleBand()
         .domain(nestedData.map(function(d) { return d.key; }))
@@ -580,6 +608,15 @@ function clearChart() {
         .style("position", "absolute")
         .style("z-index", "10")
         .style("visibility", "hidden");
+
+      var annotationGroup = g.append("g")
+        .attr('class', 'legend')
+        .call(makeAnnotations);
+
+    // Set the fill color for the text label inside the annotation
+      annotationGroup.selectAll("text")
+        .attr('class', 'legend')
+        .style("font", "11px 'Arial'");
 
       // Helper function to get the 'Relinquished' value for a given 'Notes' value
       function getRelinquishedValues(data, notes) {
