@@ -190,7 +190,7 @@ function clearChart() {
                 return y(d.value);
             })
             .attr("r", 5)
-            .style("fill", "maroon");
+            .style("fill", "blue");
 
         circles
             .on("mouseover", showTooltip)
@@ -343,7 +343,8 @@ function clearChart() {
       var annotations = [
             {
                 note: {
-                    label: "No one team appears to have a significantly greater injury share",
+                    label: "Even as the number of teams increases over the years, no one team appears to have a significantly " +
+                        "greater injury share",
                     align: "middle",
                     wrap: 100,
                     padding: 5,
@@ -514,7 +515,7 @@ function clearChart() {
         .attr("y", function(d) { return y(d.value); })
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d.value); })
-        .style("fill", "maroon")
+        .style("fill", "blue")
         .on("mouseover", function(d) {
           // Show tooltip with 'Relinquished' value on mouseover
           tooltip.text(d.key + ": " + d.value + " (" + getRelinquishedValues(data, d.key).join(", ") + ")");
